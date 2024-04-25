@@ -1,0 +1,6 @@
+@desafioItau.api_HostAddress = http://localhost:5178
+
+GET {{desafioItau.api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
