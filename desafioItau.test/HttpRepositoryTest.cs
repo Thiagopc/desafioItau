@@ -12,19 +12,21 @@ namespace desafioItau.test
         [ExpectedException(typeof(HttpRequestException))]
         public async Task ExcedidoNumeroMaximoFalhasRetry()
         {
-            
-                var factoryHttp = new BuildHttpFactory().Build("http://localhost:9090/contas/saldos", "", 500);
+            string urlRequisicao = "http://localhost:9090/contas/saldos";
+
+
+                var factoryHttp =  BuildHttpFactory.Build(urlRequisicao, "", 500);
                 var repositorio = new HttpRepository(factoryHttp);
-                await repositorio.ObterAsync<object>("http://localhost:9090/contas/saldos");         
+                await repositorio.ObterAsync<object>(urlRequisicao);         
 
         }
 
 
 
         [TestMethod]
-        public async Task RetornoBemsucedido()
+        public async Task RetornoSucesso()
         {            
-            var factoryHttp = new BuildHttpFactory().Build("http://localhost:9090/contas/saldos", JsonSerializer.Serialize(new ContaResponse()), 200);
+            var factoryHttp = BuildHttpFactory.Build("http://localhost:9090/contas/saldos", JsonSerializer.Serialize(new ContaResponse()), 200);
             var repositorio = new HttpRepository(factoryHttp);
             await repositorio.ObterAsync<ContaResponse>("http://localhost:9090/contas/saldos");
             

@@ -13,13 +13,18 @@ namespace desafioItau.domain.Services
 
 
 
-        public async Task Validar(string url, CancellationToken token = default)
+        public async Task<ClienteResponse?> Obter(string url, CancellationToken token = default)
         {
             var cliente = await this._clientehttp.ObterAsync<ClienteResponse>(url, token);
-            if (!string.IsNullOrEmpty(cliente?.Id.ToString()))
-                return;
+            validar(cliente);
+            return cliente;
 
-            throw new Exception("Cliente inválido");
+        }
+
+        private void validar(ClienteResponse? cliente)
+        {
+            if (string.IsNullOrEmpty(cliente?.Id.ToString()))
+                throw new Exception("Cliente inválido");
         }
 
 

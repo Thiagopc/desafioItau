@@ -10,12 +10,11 @@ namespace desafioItau.test.Build
 {
     internal class BuildHttpFactory
     {
+        private BuildHttpFactory() { }
 
+        public static IHttpClientFactory Build(string url, string conteudoJson, int statusCode = 200)
+         => new HttpFactoryMoc(url, conteudoJson, statusCode);
 
-        public IHttpClientFactory Build(string url, string conteudoJson, int statusCode = 200)
-        {
-            return new HttpFactoryMoc(url, conteudoJson, statusCode);
-        }
 
 
     }
@@ -28,7 +27,8 @@ namespace desafioItau.test.Build
         private string url;
         private string contentJson;
         private int statusCode = 200;
-        public HttpFactoryMoc(string url, string contentJson, int statusCode = 200) {
+        public HttpFactoryMoc(string url, string contentJson, int statusCode = 200)
+        {
             this.url = url;
             this.contentJson = contentJson;
             this.statusCode = statusCode;
@@ -38,15 +38,15 @@ namespace desafioItau.test.Build
         public HttpClient CreateClient(string url)
         {
             var mockHttp = new MockHttpMessageHandler();
-            if(string.IsNullOrEmpty(contentJson))
-                mockHttp.When(url).Respond((HttpStatusCode) statusCode);
+            if (string.IsNullOrEmpty(contentJson))
+                mockHttp.When(url).Respond((HttpStatusCode)statusCode);
             else
                 mockHttp.When(url).Respond((HttpStatusCode)statusCode, _mediaType, contentJson);
-            
+
             return new HttpClient(mockHttp);
         }
 
-       
+
     }
 
 }

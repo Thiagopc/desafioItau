@@ -42,7 +42,7 @@ namespace desafioItau.infra.Repositories.ClasseBase
 
         }
 
-        public async Task<TConteudo?> EnviarPostAsync<TConteudo>(string url, TConteudo conteudoRequisicao) where TConteudo : class
+        public async Task EnviarPostAsync<TConteudo>(string url, TConteudo conteudoRequisicao) where TConteudo : class
         {
             using (var clienteHttp = this._httpfactory.CreateClient())
             {
@@ -55,7 +55,7 @@ namespace desafioItau.infra.Repositories.ClasseBase
                     });
                 resposta.EnsureSuccessStatusCode();
 
-                return await resposta.Content.ReadFromJsonAsync<TConteudo>();
+                //return await resposta.Content.ReadFromJsonAsync<TConteudo>();
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using desafioItau.application.Dto.Response;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace desafioItau.domain.Interfaces.Services
 {
     public interface IClienteService
     {
-        Task Validar( string url, CancellationToken token = default);
+        Task<ClienteResponse?> Obter( string url, CancellationToken token = default);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using desafioItau.application.Dto.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace desafioItau.domain.Interfaces.Services
 {
     public interface IContaService
     {
-        public Task Validar(string url, string parametroIdOrigem, string parametroIdDestino, decimal valor);
+        public Task ValidarSolicitacao(string url, string parametroIdOrigem, string parametroIdDestino, decimal valor);
+        Task AtualizarSaldo(string url, TransferenciaRequest requisicaoTransferencia);
     }
 }
