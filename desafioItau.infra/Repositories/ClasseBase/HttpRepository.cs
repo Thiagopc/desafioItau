@@ -20,22 +20,21 @@ namespace desafioItau.infra.Repositories.ClasseBase
         private readonly string _mediaType = "application/json";
 
 
-        private AsyncRetryPolicy<HttpResponseMessage> _politicaRetryTimeout;
+        private AsyncRetryPolicy<HttpResponseMessage> _politicaRetry;
         public HttpRepository(IHttpClientFactory httpfactory)
         {
             this._httpfactory = httpfactory;
-            this._politicaRetryTimeout = PoliticaHttp.RetryAsync();
+            this._politicaRetry = PoliticaHttp.RetryAsync();
         }
 
 
-        public async Task<TConteudo?> ObterAsync<TConteudo>(string url, CancellationToken token = default) where TConteudo : class
+        public async Task<TConteudo?> ObterAsync<TConteudo>(string url) where TConteudo : class
 
         {
             using (var clienteHttp = this._httpfactory.CreateClient())
             {
 
-                var resposta = await this._politicaRetryTimeout.ExecuteAsync(async (token) => await clienteHttp.GetAsync(url),
-                    token);
+                var resposta = await this._politicaRetry.ExecuteAsync(async () => await clienteHttp.GetAsync(url));                  
 
                 resposta.EnsureSuccessStatusCode();
                 return await resposta.Content.ReadFromJsonAsync<TConteudo>();
@@ -47,7 +46,7 @@ namespace desafioItau.infra.Repositories.ClasseBase
         {
             using (var clienteHttp = this._httpfactory.CreateClient())
             {
-                var resposta = await this._politicaRetryTimeout.
+                var resposta = await this._politicaRetry.
                     ExecuteAsync(async () =>
                     {
                         return await clienteHttp
@@ -65,7 +64,7 @@ namespace desafioItau.infra.Repositories.ClasseBase
         {
             using (var clienteHttp = this._httpfactory.CreateClient())
             {
-                var resposta = await this._politicaRetryTimeout.
+                var resposta = await this._politicaRetry.
                     ExecuteAsync(async () =>
                     {
                         return await clienteHttp.PutAsync(url, this.obterStringContent<TConteudo>(conteudoRequisicao));
