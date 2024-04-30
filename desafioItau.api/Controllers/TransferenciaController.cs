@@ -12,12 +12,12 @@ namespace desafioItau.api.Controllers
     {
         private readonly ITransacaoFinanceiraUseCase _useCase;
         private readonly ILogger<TransferenciaController> _logger;
-        private readonly Guid _id;
+        private readonly Guid _idTransacao;
         public TransferenciaController(ITransacaoFinanceiraUseCase useCase, ILogger<TransferenciaController> log)
         {
             _useCase = useCase;
             _logger = log;
-            _id = Guid.NewGuid();
+            _idTransacao = Guid.NewGuid();
 
         }
 
@@ -28,11 +28,11 @@ namespace desafioItau.api.Controllers
         {
             //Nesse cenário estou considerando que as informações utilizadas são abstrações dos dados reais
             //que poderiam ser utilizadas em logs sem prejuízo a segurança das informações
-            this._logger.LogInformation($"Iniciando processo de transação do cliente {request.IdCliente}. Identificador da chamada: ${_id.ToString()}");
+            this._logger.LogInformation($"Iniciando processo de transação do cliente {request.IdCliente}. Identificador da chamada: ${_idTransacao.ToString()}");
 
             try
             {
-                await this._useCase.RealizarTransacao(request);
+                await this._useCase.RealizarTransacao(request, this._idTransacao.ToString());
                 return StatusCode(201);
             }
             catch (Exception ex)

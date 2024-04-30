@@ -8,11 +8,11 @@ namespace desafioItau.domain.Interfaces.Repositories
 {
     public interface IRepositoryDbBase<TEntidade>
     {
-        public Task<TEntidade?> Obter(params object[] values);
+        public Task<TEntidade?> ObterAsync(params object[] values);
 
         public void Adicionar(TEntidade entidade);
 
-        public Task Salvar();
+        public Task SalvarAsync();
 
     }
 }

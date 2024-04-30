@@ -13,13 +13,13 @@ namespace desafioItau.infra.Repositories.ClasseBase
         private readonly DbConnection _conexao;
         public DbBaseRepository(DbConnection conexao) => _conexao = conexao;
 
-        public async Task<TEntidade?> Obter(params object[] values)
+        public async Task<TEntidade?> ObterAsync(params object[] values)
         => await this._conexao.Set<TEntidade>().FindAsync(values);
 
         public void Adicionar(TEntidade entidade)
         => this._conexao.Add(entidade);
 
-        public async Task Salvar()        
+        public async Task SalvarAsync()        
         => await this._conexao.SaveChangesAsync();
         
         

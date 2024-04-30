@@ -7,14 +7,16 @@ using System.Threading.Tasks;
 
 namespace desafioItau.domain.Entities
 {
-    public class HistoricoOperacao
+    public class HistoricoTransferencia
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string idOrigem { get; set; }
         public string IdDestino { get; set; }
         public decimal Valor { get; set; }
         public string IdCliente { get; set; }
         public int IdStatus { get; set; }
         public DateTime DataHora { get; set; }
+
+        //public virtual Transacao Transacao { get; set; }
     }
 }

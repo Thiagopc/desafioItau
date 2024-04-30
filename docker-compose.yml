@@ -20,3 +20,24 @@ services:
     ports:
       - "6379:6379"
 
+
+  nats:
+    image: nats:latest
+    container_name: nats_container
+    ports:
+      - "4444:4444"
+      - "4222:4222"
+      - "8222:8222"
+
+  
+  csharp_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: csharp_container
+    depends_on:
+      - postgres
+      - redis
+      - nats
+    ports:
+      - "8000:8080"

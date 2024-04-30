@@ -1,20 +1,18 @@
 ﻿using desafioItau.application.Dto.Request;
 using desafioItau.application.Dto.Response;
+using desafioItau.domain.Entities;
+using desafioItau.domain.Enum;
 using desafioItau.domain.Interfaces.Repositories;
 using desafioItau.domain.Interfaces.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+
 
 namespace desafioItau.domain.Services
 {
     public class ContaService : BaseService, IContaService
     {
 
-        public ContaService(IHttpRepository clientehttp) : base(clientehttp) { }
+        public ContaService(IHttpRepository clientehttp, IRepositoryDbBase<Historico> repositorioHistorico)
+            : base(clientehttp, repositorioHistorico) { }
 
 
         public async Task ValidarSolicitacao(string url, string parametroIdOrigem, string parametroIdDestino, decimal valor)
@@ -25,7 +23,7 @@ namespace desafioItau.domain.Services
         }
 
 
-        public async Task AtualizarSaldo(string url, TransferenciaRequest requisicaoTransferencia)
+        public async Task AtualizarSaldo(string url, TransferenciaRequest requisicaoTransferencia, string identificadorTransferencia)
         {
 
 
@@ -38,7 +36,10 @@ namespace desafioItau.domain.Services
                     IdOrigem = requisicaoTransferencia.Conta.IdOrigem
                 }
             };
+
+            await this.salvarHistorico(EnumHistoricoTransacao.Iniciado, FakeEnumOperacaoTransacao.AtualizarSaldo, identificadorTransferencia);            
             await this._clientehttp.EnviarPutAsync(url, dadosTransferencia);
+            await this.salvarHistorico(EnumHistoricoTransacao.Finalizado, FakeEnumOperacaoTransacao.AtualizarSaldo, identificadorTransferencia);
 
         }
 
@@ -49,10 +50,10 @@ namespace desafioItau.domain.Services
 
 
             if (!contaOrigem.Ativo)
-                throw new Exception($"Conta de origem: ${contaOrigem.Id} está inativa");
+                throw new Exception($"Conta de origem está inativa");
 
             if (!contaDestino.Ativo)
-                throw new Exception($"Conta de destino: ${contaDestino.Id} está inativa");
+                throw new Exception($"Conta de destino está inativa");
 
             if (contaOrigem.Saldo < valor)
                 throw new Exception("Transacao não autorizada. Saldo insuficiente");

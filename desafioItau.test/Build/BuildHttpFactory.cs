@@ -13,7 +13,7 @@ namespace desafioItau.test.Build
         private BuildHttpFactory() { }
 
         public static IHttpClientFactory Build(string url, string conteudoJson, int statusCode = 200)
-         => new HttpFactoryMoc(url, conteudoJson, statusCode);
+         => new HttpFactoryClienteMoc(url, conteudoJson, statusCode);
 
 
 
@@ -21,13 +21,13 @@ namespace desafioItau.test.Build
 
 
 
-    public class HttpFactoryMoc : IHttpClientFactory
+    public class HttpFactoryClienteMoc : IHttpClientFactory
     {
         private readonly string _mediaType = @"application/json";
         private string url;
         private string contentJson;
         private int statusCode = 200;
-        public HttpFactoryMoc(string url, string contentJson, int statusCode = 200)
+        public HttpFactoryClienteMoc(string url, string contentJson, int statusCode = 200)
         {
             this.url = url;
             this.contentJson = contentJson;

@@ -10,11 +10,12 @@ namespace desafioItau.domain.Entities
     {
 
         public int Id { get; set; }
-        public int IdHistoricoOperacao { get; set; }
+        public string IdTransacao { get; set; }
         public string Operacao { get; set; }
         public int IdStatus { get; set; }
-        public TimeSpan DataHora { get; set; }
+        public DateTime DataHora { get; set; }
 
+        public Transacao Transacao { get; set; }
 
     }
 }

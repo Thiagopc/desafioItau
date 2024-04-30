@@ -17,7 +17,7 @@ namespace desafioItau.test
 
                 var factoryHttp =  BuildHttpFactory.Build(urlRequisicao, "", 500);
                 var repositorio = new HttpRepository(factoryHttp);
-                await repositorio.ObterAsync<object>(urlRequisicao);         
+                await repositorio.ObterAsync<object>(urlRequisicao);
 
         }
 

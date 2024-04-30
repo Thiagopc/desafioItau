@@ -9,6 +9,6 @@ namespace desafioItau.domain.Interfaces.Services
 {
     public interface ITransacaoService
     {
-        public Task EnviarTransacao(string url, TransferenciaRequest requisicao, CancellationToken token = default);
+        public Task EnviarTransacao(string url, TransferenciaRequest requisicao,string idTransacao, CancellationToken token = default);
     }
 }
