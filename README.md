@@ -34,7 +34,7 @@ O corpo da requisição deve ser estruturado como segue:
 
 ## Desafio 2
 
-![alt text](https://github.com/Thiagopc/desafioItau/blob/dev/Arquitetura.png "Desafio 2")
+![alt text](https://github.com/Thiagopc/desafioItau/blob/main/Arquitetura.png "Desafio 2")
 
 
 
