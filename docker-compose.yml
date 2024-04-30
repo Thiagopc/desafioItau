@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_container
+    environment:
+      POSTGRES_DB: desafioitau
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d/
+
+
+  redis:
+    image: redis:latest
+    container_name: redis_container
+    ports:
+      - "6379:6379"
+
+
+  nats:
+    image: nats:latest
+    container_name: nats_container
+    ports:
+      - "4444:4444"
+      - "4222:4222"
+      - "8222:8222"
+
+  
+  csharp_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: csharp_container
+    depends_on:
+      - postgres
+      - redis
+      - nats
+    ports:
+      - "8000:8080"
