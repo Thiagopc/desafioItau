@@ -35,3 +35,65 @@ O corpo da requisição deve ser estruturado como segue:
 ## Desafio 2
 
 ![alt text](https://github.com/Thiagopc/desafioItau/blob/dev/Arquitetura.png "Desafio 2")
+
+
+
+## Desafio 3
+
+
+```
+
+
+CREATE TABLE cliente(
+id_cliente INT,
+nome varchar(150) NOT NULL,
+CONSTRAINT pk_cliente_id PRIMARY KEY(id_cliente)
+);
+
+
+CREATE TABLE conta(
+    id_conta INT,
+    id_cliente INT not null,
+    saldo DECIMAL (10, 2) NOT NULL,
+    CONSTRAINT pk_conta_id_conta PRIMARY KEY (id_conta),
+    CONSTRAINT fk_conta_id_cliente FOREIGN KEY (id_cliente) REFERENCES cliente (id_cliente)
+);
+
+
+CREATE PROCEDURE transferencia
+@id_conta_origem INT,
+@id_conta_destino INT,
+@valor DECIMAL(10,2)
+AS 
+BEGIN 
+  
+    IF NOT EXISTS (SELECT 1 FROM conta WHERE id_conta = @id_conta_origem)
+    BEGIN
+        PRINT 'Conta origem não existe';
+        RETURN;
+    END
+
+    IF NOT EXISTS (SELECT 1 FROM conta WHERE id_conta = @id_conta_destino)
+    BEGIN
+        PRINT 'Conta destino não existe';
+        RETURN;
+    END
+
+    BEGIN TRANSACTION;
+    TRY
+        -- Débito da conta origem
+        UPDATE conta SET saldo = saldo - @valor WHERE id_conta = @id_conta_origem;
+
+        -- Crédito na conta destino
+        UPDATE conta SET saldo = saldo + @valor WHERE id_conta = @id_conta_destino;
+
+        COMMIT TRANSACTION;
+    CATCH
+        PRINT 'Erro na transferência';
+        ROLLBACK TRANSACTION;
+    END TRY
+END;
+    
+
+
+```
