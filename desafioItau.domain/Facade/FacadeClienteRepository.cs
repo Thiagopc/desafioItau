@@ -13,29 +13,41 @@ namespace desafioItau.domain.Facade
     {
         private readonly IHttpRepository _clientehttp;
         private readonly ICacheRepository _cache;
-        public FacadeClienteRepository(IHttpRepository clienteHttp, ICacheRepository cache) {
+        public FacadeClienteRepository(IHttpRepository clienteHttp, ICacheRepository cache)
+        {
             _clientehttp = clienteHttp;
             _cache = cache;
-        
+
         }
 
         //Vou utilizar a url mesmo apenas para facilitação, em um cenário real seria utilizado apenas o id
         public async Task<ClienteResponse?> Obter(string url, CancellationToken token = default)
         {
-            var clienteCache = await this._cache.ObterValor<ClienteResponse>(url);
-            if(clienteCache != null) 
+            ClienteResponse clienteCache = null;
+
+            try
+            {
+                clienteCache = await this._cache.ObterValor<ClienteResponse>(url);
+            }
+            catch (Exception ex)
+            {
+                //   log 
+            }
+
+
+            if (clienteCache != null)
                 return clienteCache;
 
-            var cliente = await this._clientehttp.ObterAsync<ClienteResponse>(url, token);
+            var cliente = await this._clientehttp.ObterAsync<ClienteResponse>(url);
             validar(cliente);
 
-            await salvarCache(url,cliente);
+            await salvarCache(url, cliente);
             return cliente;
         }
 
-        
+
         private async Task salvarCache(string chave, ClienteResponse cliente)
-        =>   await this._cache.DefinirValor(chave, cliente);
+        => await this._cache.DefinirValor(chave, cliente);
 
         private void validar(ClienteResponse? cliente)
         {

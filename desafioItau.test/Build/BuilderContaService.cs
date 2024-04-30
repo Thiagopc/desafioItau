@@ -72,7 +72,7 @@ namespace desafioItau.test.Build
                 return Task.CompletedTask;
             }
 
-            public Task<TConteudo?> ObterAsync<TConteudo>(string url, CancellationToken token = default) where TConteudo : class
+            public Task<TConteudo?> ObterAsync<TConteudo>(string url) where TConteudo : class
             {
                 return _contaServiceList[url] as Task<TConteudo>;
             }
