@@ -11,13 +11,13 @@ A aplicação e todas as dependências (excluindo as fornecidas pelo desafio) po
 Observação Importante
 A API requer que os seguintes endpoints estejam operacionais na máquina host:
 
-Mock endpoint: http://localhost:9090
-API endpoint: http://localhost:8080
+1. Mock endpoint: http://localhost:9090
+2. API endpoint: http://localhost:8080
 Envio de Solicitações
-As solicitações podem ser enviadas para o seguinte endpoint:
 
+### As requisições podem ser enviadas para a API desenvolvida pelo seguinte endpoint:
 
-http://localhost:8000/api/transferencia
+```http://localhost:8000/api/transferencia```
 
 Corpo da Requisição
 O corpo da requisição deve ser estruturado como segue:
