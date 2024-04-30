@@ -42,10 +42,10 @@ namespace desafioItau.application.UseCase
 
         
         public async Task RealizarTransacao(TransferenciaRequest requisicaoTransacao,
-            string idTransacao, CancellationToken token = default)
+            string idTransacao)
         {
             await inicializarTransacao(idTransacao);
-            _ = await this._clienteService.Obter($"{_enderecoBaseUrl}/clientes/{requisicaoTransacao.IdCliente}", token);
+            _ = await this._clienteService.Obter($"{_enderecoBaseUrl}/clientes/{requisicaoTransacao.IdCliente}");
             await this._contaService.ValidarSolicitacao($"{_enderecoBaseUrl}/contas", requisicaoTransacao.Conta.IdOrigem.ToString(),
                 requisicaoTransacao.Conta.IdDestino.ToString(), requisicaoTransacao.Valor);
 

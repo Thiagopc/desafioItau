@@ -33,7 +33,7 @@ namespace desafioItau.api.Controllers
             try
             {
                 await this._useCase.RealizarTransacao(request, this._idTransacao.ToString());
-                return StatusCode(201);
+                return StatusCode(200);
             }
             catch (Exception ex)
             {

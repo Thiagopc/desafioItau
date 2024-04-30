@@ -1,5 +1,6 @@
 ﻿using desafioItau.domain.Interfaces.Repositories;
 using desafioItau.infra.Politicas;
+using Polly.Retry;
 using Polly.Wrap;
 using System;
 using System.Collections.Generic;
@@ -19,11 +20,11 @@ namespace desafioItau.infra.Repositories.ClasseBase
         private readonly string _mediaType = "application/json";
 
 
-        private AsyncPolicyWrap<HttpResponseMessage> _politicaRetryTimeout;
+        private AsyncRetryPolicy<HttpResponseMessage> _politicaRetryTimeout;
         public HttpRepository(IHttpClientFactory httpfactory)
         {
             this._httpfactory = httpfactory;
-            this._politicaRetryTimeout = PoliticaHttp.NovasTentativacomTimeoutAsync();
+            this._politicaRetryTimeout = PoliticaHttp.RetryAsync();
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using Polly;
+using Polly.Retry;
 using Polly.Wrap;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,11 @@ namespace desafioItau.infra.Politicas
         private static TResultado? obterClasse<TResultado>(string conteudoJson)
         => JsonSerializer.Deserialize<TResultado>(conteudoJson);
 
-        public static AsyncPolicyWrap<HttpResponseMessage> NovasTentativacomTimeoutAsync(int quantidadeTentativas = 3, int tempoLimiteSegundos = 4)
+        public static AsyncRetryPolicy<HttpResponseMessage> RetryAsync(int quantidadeTentativas = 3)
         {
 
 
-            var timeout = Policy.TimeoutAsync<HttpResponseMessage>(tempoLimiteSegundos, Polly.Timeout.TimeoutStrategy.Pessimistic);
+            
             var politicaRetry = Policy.HandleResult<HttpResponseMessage>((message) =>
                     {
                         var statuscode = (int)message.StatusCode;
@@ -38,7 +39,7 @@ namespace desafioItau.infra.Politicas
             });
 
 
-            return politicaRetry.WrapAsync(timeout);
+            return politicaRetry;
 
         }
 
